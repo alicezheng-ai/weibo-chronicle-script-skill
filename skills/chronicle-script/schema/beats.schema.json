@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Chronicle animation beats",
+  "description": "Script-side output consumed by the Chronicle Animation design skill.",
+  "type": "object",
+  "required": ["title", "range", "axis", "chapters"],
+  "properties": {
+    "title": { "type": "string", "description": "Title-card headline. 1-4 characters/words; renders at 132px." },
+    "kicker": { "type": "string", "description": "Small tracked label above the title, e.g. source and item count." },
+    "range": { "type": "string", "description": "Display form of the span, e.g. \"2009 — 2026\"." },
+    "opening": { "type": "string", "description": "One sentence under the title. The thesis of the piece." },
+    "axis": {
+      "type": "object",
+      "required": ["from", "to"],
+      "properties": {
+        "from": { "type": "integer" },
+        "to": { "type": "integer" }
+      },
+      "description": "First and last year on the vertical axis. Every year between is drawn."
+    },
+    "chain": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "The metaphor words in order, for the breadcrumb and the closing stack. Subset of chapter words."
+    },
+    "chapters": {
+      "type": "array",
+      "minItems": 2,
+      "items": {
+        "type": "object",
+        "required": ["name", "year", "word", "dur", "quotes"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^[A-Za-z][A-Za-z0-9]*$",
+            "description": "Unique ASCII timeline section id. Must match OM_SCENES. Never rename after delivery."
+          },
+          "year": { "type": "integer", "description": "Anchor year. Drives the spine, not the marker." },
+          "kicker": { "type": "string", "description": "Year or range label, e.g. \"2011 — 2013\"." },
+          "word": { "type": "string", "description": "The metaphor. 1-5 characters reads best at 104px." },
+          "dur": { "type": "number", "minimum": 6, "maximum": 20, "description": "Seconds. 8-13 typical; 11+ if two quotes." },
+          "quotes": {
+            "type": "array",
+            "maxItems": 2,
+            "items": {
+              "type": "object",
+              "required": ["y", "at", "text"],
+              "properties": {
+                "y": { "type": "integer", "description": "Year of THIS quote. Required always. The axis marker follows this." },
+                "at": { "type": "number", "description": "Seconds from chapter start. First ~1.0-1.2, second ~6.0-7.6." },
+                "text": { "type": "string", "description": "Verbatim source text. Do not paraphrase." },
+                "date": { "type": "string", "description": "Date plus context, e.g. \"2011.07.20 · 落榜后一个月\". Empty string to omit." },
+                "muted": { "type": "boolean", "description": "Renders smaller at 62% — for asides and archive statistics, not voice." }
+              }
+            }
+          }
+        }
+      }
+    },
+    "closing": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "description": "Section id for the closing beat, e.g. \"RootGrows\"." },
+        "dur": { "type": "number" }
+      },
+      "description": "The final beat: the chain stacks, the spine keeps growing, no closing line."
+    },
+    "palette": {
+      "type": "object",
+      "properties": {
+        "bg": { "type": "string" },
+        "ink": { "type": "string" },
+        "accent": { "type": "string" },
+        "accentDeep": { "type": "string", "description": "For accent text at 22px and under. Needs ~6:1 on bg." }
+      }
+    },
+    "music": { "type": "string", "description": "Path to a user-supplied audio file. Leave empty; never source copyrighted music." }
+  }
+}

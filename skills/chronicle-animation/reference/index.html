@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>编年史 2009—2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; background: #ead0cc; }
+  #root { min-height: 100vh; }
+  a { color: #b0455e; text-decoration: none; }
+  a:hover { color: #7d2f42; }
+</style>
+
+<!-- One entry per chapter, in the SAME ORDER as the CH table in piece.jsx.
+     The engine derives cue times from this list; piece.jsx looks them up by name. -->
+<script>window.OM_SCENES = '[{"name":"Opening","dur":5,"desc":"Title card; the year axis draws in"},{"name":"Distance","dur":12,"desc":"2009-2011 远方"},{"name":"Wings","dur":11,"desc":"2011-2013 翅膀"},{"name":"DarkMatter","dur":13,"desc":"2014 暗物质"},{"name":"Whole","dur":11,"desc":"2015 完整的自己"},{"name":"Lamp","dur":13,"desc":"2021 明灯"},{"name":"Turn","dur":12,"desc":"2022 翻篇"},{"name":"Root","dur":13,"desc":"2023 细细的根"},{"name":"Bandwidth","dur":8,"desc":"2026 带宽"},{"name":"RootGrows","dur":9,"desc":"The chain stacks; the root keeps growing"}]';</script>
+<script>window.OM_PLAYBACK = '{"mode":"loop"}';</script>
+<script>window.OM_MUSIC_SRC = '';</script>
+<script>window.TWEAK_DEFAULTS = {"motionEditor":true,"texture":true,"accent":"#b0455e"};</script>
+
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<!-- Load order matters: engine and tweaks panel register their window globals
+     before piece.jsx reads them. -->
+<script type="text/babel" src="./tweaks-panel.jsx"></script>
+<script type="text/babel" src="./engine.jsx"></script>
+<script type="text/babel" src="./piece.jsx"></script>
+<script type="text/babel" data-presets="react">
+  const mount = () => {
+    if (!window.ChronicleVideo) return setTimeout(mount, 50);
+    ReactDOM.createRoot(document.getElementById('root'))
+      .render(React.createElement(window.ChronicleVideo));
+  };
+  mount();
+</script>
+</body>
+</html>
